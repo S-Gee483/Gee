@@ -128,7 +128,22 @@ function processCommand(command) {
 
     return;
   }
+// Open Contacts
+if (
+  command.includes("open contacts") ||
+  command.includes("show contacts")
+) {
+  speak("Opening your contacts.");
 
+  setTimeout(function () {
+    window.open(
+      "contacts.html",
+      "_blank"
+    );
+  }, 1000);
+
+  return;
+}
   // WhatsApp
   if (
     command.includes("open whatsapp") ||
