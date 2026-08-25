@@ -132,3 +132,16 @@ button:active {
       inset 0 0 40px rgba(0, 217, 255, 0.4);
   }
 }
+.arc.listening {
+  animation: listening 0.8s infinite alternate;
+}
+
+@keyframes listening {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.12);
+  }
+}
