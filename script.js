@@ -27,11 +27,13 @@ function startListening() {
   recognition.interimResults = false;
 
   recognition.onstart = function () {
-    listening = true;
-    document.getElementById("status").innerText =
-      "Gee is listening...";
-  };
+  listening = true;
 
+  document.querySelector(".arc").classList.add("listening");
+
+  document.getElementById("status").innerText =
+    "Gee is listening...";
+};
   recognition.onresult = function (event) {
 
     const command =
