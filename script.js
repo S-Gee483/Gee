@@ -39,7 +39,7 @@ function startListening() {
   recognition.onresult = function (event) {
 
     const command =
-      event.results[0][0].transcript.toLowerCase();
+      event.results[0][0].transcript.toLowerCase().trim();
 
     document.getElementById("status").innerText =
       "You said: " + command;
@@ -65,6 +65,54 @@ function startListening() {
 }
 
 
+function getContacts() {
+
+  try {
+    return JSON.parse(
+      localStorage.getItem("geeContacts") || "{}"
+    );
+  } catch {
+    return {};
+  }
+}
+
+
+function callContact(name) {
+
+  const contacts = getContacts();
+
+  const cleanName =
+    name.toLowerCase().trim();
+
+  const number =
+    contacts[cleanName];
+
+  if (!number) {
+
+    speak(
+      "I couldn't find " +
+      name +
+      " in your contacts, boss."
+    );
+
+    return;
+  }
+
+  speak(
+    "I found " +
+    name +
+    ". Opening the phone dialer now."
+  );
+
+  setTimeout(function () {
+
+    window.location.href =
+      "tel:" + number;
+
+  }, 1200);
+}
+
+
 function processCommand(command) {
 
   // Greetings
@@ -73,7 +121,11 @@ function processCommand(command) {
     command.includes("hi") ||
     command.includes("hey gee")
   ) {
-    speak("Hello boss. Gee is online and ready.");
+
+    speak(
+      "Hello boss. Gee is online and ready."
+    );
+
     return;
   }
 
@@ -83,14 +135,22 @@ function processCommand(command) {
     command.includes("who are you") ||
     command.includes("what are you")
   ) {
-    speak("I am Gee, your personal voice assistant.");
+
+    speak(
+      "I am Gee, your personal voice assistant."
+    );
+
     return;
   }
 
 
   // How are you
   if (command.includes("how are you")) {
-    speak("I'm doing great, boss. Systems are ready.");
+
+    speak(
+      "I'm doing great, boss. Systems are ready."
+    );
+
     return;
   }
 
@@ -144,7 +204,9 @@ function processCommand(command) {
     command.includes("show contacts")
   ) {
 
-    speak("Opening your contacts.");
+    speak(
+      "Opening your contacts."
+    );
 
     setTimeout(function () {
 
@@ -159,13 +221,40 @@ function processCommand(command) {
   }
 
 
+  // Call contact
+  if (
+    command.startsWith("call ")
+  ) {
+
+    const name =
+      command
+        .replace("call ", "")
+        .trim();
+
+    if (!name) {
+
+      speak(
+        "Who would you like me to call, boss?"
+      );
+
+      return;
+    }
+
+    callContact(name);
+
+    return;
+  }
+
+
   // WhatsApp
   if (
     command.includes("open whatsapp") ||
     command.includes("launch whatsapp")
   ) {
 
-    speak("Opening WhatsApp.");
+    speak(
+      "Opening WhatsApp."
+    );
 
     setTimeout(function () {
 
@@ -186,7 +275,9 @@ function processCommand(command) {
     command.includes("launch gmail")
   ) {
 
-    speak("Opening Gmail.");
+    speak(
+      "Opening Gmail."
+    );
 
     setTimeout(function () {
 
@@ -207,7 +298,9 @@ function processCommand(command) {
     command.includes("launch youtube")
   ) {
 
-    speak("Opening YouTube.");
+    speak(
+      "Opening YouTube."
+    );
 
     setTimeout(function () {
 
@@ -228,7 +321,9 @@ function processCommand(command) {
     command.includes("launch google")
   ) {
 
-    speak("Opening Google.");
+    speak(
+      "Opening Google."
+    );
 
     setTimeout(function () {
 
@@ -244,12 +339,16 @@ function processCommand(command) {
 
 
   // Search
-  if (command.startsWith("search for")) {
+  if (
+    command.startsWith("search for")
+  ) {
 
     const search =
-      command.replace("search for", "").trim();
+      command
+        .replace("search for", "")
+        .trim();
 
-    if (search === "") {
+    if (!search) {
 
       speak(
         "What would you like me to search for?"
@@ -277,10 +376,14 @@ function processCommand(command) {
 
 
   // Calculator
-  if (command.startsWith("calculate")) {
+  if (
+    command.startsWith("calculate")
+  ) {
 
     const expression =
-      command.replace("calculate", "").trim();
+      command
+        .replace("calculate", "")
+        .trim();
 
     try {
 
@@ -298,7 +401,8 @@ function processCommand(command) {
         )();
 
       speak(
-        "The answer is " + result
+        "The answer is " +
+        result
       );
 
     } catch {
@@ -306,7 +410,6 @@ function processCommand(command) {
       speak(
         "Sorry boss, I couldn't calculate that."
       );
-
     }
 
     return;
@@ -321,9 +424,9 @@ function processCommand(command) {
 
     speak(
       "I can tell you the time and date, " +
-      "open your contacts, WhatsApp, Gmail, " +
-      "YouTube and Google, search the web, " +
-      "and perform calculations."
+      "open your contacts, call saved contacts, " +
+      "open WhatsApp, Gmail, YouTube and Google, " +
+      "search the web, and perform calculations."
     );
 
     return;
