@@ -25,26 +25,7 @@
 
   </div>
 
-  <script>
-
-    function speak() {
-
-      const message =
-        "Hello boss. Gee is online. How can I help you?";
-
-      const voice =
-        new SpeechSynthesisUtterance(message);
-
-      voice.rate = 1;
-      voice.pitch = 1;
-
-      speechSynthesis.speak(voice);
-
-      document.getElementById("status").innerText =
-        "Gee is speaking...";
-    }
-
-  </script>
+  
 
 </body>
 </html>
