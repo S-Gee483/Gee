@@ -1,4 +1,4 @@
-  let recognition;
+let recognition;
 let listening = false;
 
 function speak(text) {
@@ -27,13 +27,14 @@ function startListening() {
   recognition.interimResults = false;
 
   recognition.onstart = function () {
-  listening = true;
+    listening = true;
 
-  document.querySelector(".arc").classList.add("listening");
+    document.querySelector(".arc").classList.add("listening");
 
-  document.getElementById("status").innerText =
-    "Gee is listening...";
-};
+    document.getElementById("status").innerText =
+      "Gee is listening...";
+  };
+
   recognition.onresult = function (event) {
 
     const command =
@@ -47,14 +48,17 @@ function startListening() {
 
   recognition.onerror = function () {
     listening = false;
+
+    document.querySelector(".arc").classList.remove("listening");
+
     speak("Sorry boss, I couldn't hear that.");
   };
 
   recognition.onend = function () {
-  listening = false;
+    listening = false;
 
-  document.querySelector(".arc").classList.remove("listening");
-};
+    document.querySelector(".arc").classList.remove("listening");
+  };
 
   recognition.start();
 }
@@ -76,25 +80,21 @@ function processCommand(command) {
     command.includes("who are you") ||
     command.includes("what are you")
   ) {
-    speak(
-      "I am Gee, your personal voice assistant. " +
-      "I'm still learning, boss."
-    );
+    speak("I am Gee, your personal voice assistant.");
     return;
   }
 
   // How are you
   if (command.includes("how are you")) {
-    speak(
-      "I'm doing great, boss. Systems are ready."
-    );
+    speak("I'm doing great, boss. Systems are ready.");
     return;
   }
 
   // Time
-  if (command.includes("what time") ||
-      command.includes("current time")) {
-
+  if (
+    command.includes("what time") ||
+    command.includes("current time")
+  ) {
     const now = new Date();
 
     speak(
@@ -109,10 +109,11 @@ function processCommand(command) {
   }
 
   // Date
-  if (command.includes("what date") ||
-      command.includes("today's date") ||
-      command.includes("what day")) {
-
+  if (
+    command.includes("what date") ||
+    command.includes("today's date") ||
+    command.includes("what day")
+  ) {
     const now = new Date();
 
     speak(
@@ -127,38 +128,46 @@ function processCommand(command) {
 
     return;
   }
-// Open WhatsApp
-if (command.includes("open whatsapp")) {
 
-  speak("Opening WhatsApp.");
+  // WhatsApp
+  if (
+    command.includes("open whatsapp") ||
+    command.includes("launch whatsapp")
+  ) {
+    speak("Opening WhatsApp.");
 
-  setTimeout(function () {
-    window.open(
-      "https://web.whatsapp.com",
-      "_blank"
-    );
-  }, 1000);
+    setTimeout(function () {
+      window.open(
+        "https://web.whatsapp.com",
+        "_blank"
+      );
+    }, 1000);
 
-  return;
-}
+    return;
+  }
 
-// Open Gmail
-if (command.includes("open gmail")) {
+  // Gmail
+  if (
+    command.includes("open gmail") ||
+    command.includes("launch gmail")
+  ) {
+    speak("Opening Gmail.");
 
-  speak("Opening Gmail.");
+    setTimeout(function () {
+      window.open(
+        "https://mail.google.com",
+        "_blank"
+      );
+    }, 1000);
 
-  setTimeout(function () {
-    window.open(
-      "https://mail.google.com",
-      "_blank"
-    );
-  }, 1000);
+    return;
+  }
 
-  return;
-}
-  // Open YouTube
-  if (command.includes("open youtube")) {
-
+  // YouTube
+  if (
+    command.includes("open youtube") ||
+    command.includes("launch youtube")
+  ) {
     speak("Opening YouTube.");
 
     setTimeout(function () {
@@ -171,9 +180,11 @@ if (command.includes("open gmail")) {
     return;
   }
 
-  // Open Google
-  if (command.includes("open google")) {
-
+  // Google
+  if (
+    command.includes("open google") ||
+    command.includes("launch google")
+  ) {
     speak("Opening Google.");
 
     setTimeout(function () {
@@ -186,7 +197,7 @@ if (command.includes("open gmail")) {
     return;
   }
 
-  // Search the web
+  // Search
   if (command.startsWith("search for")) {
 
     const search =
@@ -200,13 +211,11 @@ if (command.includes("open gmail")) {
     speak("Searching for " + search);
 
     setTimeout(function () {
-
       window.open(
         "https://www.google.com/search?q=" +
         encodeURIComponent(search),
         "_blank"
       );
-
     }, 1000);
 
     return;
@@ -220,10 +229,16 @@ if (command.includes("open gmail")) {
 
     try {
 
+      const cleaned =
+        expression.replace(
+          /[^0-9+\-*/(). ]/g,
+          ""
+        );
+
       const result =
         Function(
           '"use strict"; return (' +
-          expression.replace(/[^0-9+\-*/(). ]/g, "") +
+          cleaned +
           ")"
         )();
 
@@ -243,11 +258,10 @@ if (command.includes("open gmail")) {
     command.includes("what can you do") ||
     command.includes("help me")
   ) {
-
     speak(
       "I can tell you the time and date, " +
-      "open YouTube or Google, search the web, " +
-      "and perform basic calculations."
+      "open WhatsApp, Gmail, YouTube and Google, " +
+      "search the web, and perform calculations."
     );
 
     return;
