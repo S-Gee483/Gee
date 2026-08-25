@@ -1,23 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
   <title>Gee - Personal Assistant</title>
 </head>
-<body>
-  <h1>Gee</h1>
-  <p>Your personal AI assistant.</p>
 
-  <button onclick="speak()">Talk to Gee</button>
+<body>
+
+  <div class="container">
+
+    <h1>Gee</h1>
+
+    <p class="subtitle">Your personal AI assistant</p>
+
+    <div class="arc">
+      <span>G</span>
+    </div>
+
+    <p id="status">Gee is ready.</p>
+
+    <button onclick="speak()">Talk to Gee</button>
+
+  </div>
 
   <script>
+
     function speak() {
-      const message = new SpeechSynthesisUtterance(
-        "Hello boss. Gee is online. How can I help you?"
-      );
-      speechSynthesis.speak(message);
+
+      const message =
+        "Hello boss. Gee is online. How can I help you?";
+
+      const voice =
+        new SpeechSynthesisUtterance(message);
+
+      voice.rate = 1;
+      voice.pitch = 1;
+
+      speechSynthesis.speak(voice);
+
+      document.getElementById("status").innerText =
+        "Gee is speaking...";
     }
+
   </script>
+
 </body>
 </html>
