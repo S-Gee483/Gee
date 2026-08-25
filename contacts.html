@@ -1,1 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Gee Contacts</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #05080c;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 25px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #00d9ff;
+      letter-spacing: 3px;
+    }
+
+    .box {
+      max-width: 450px;
+      margin: 30px auto;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      margin: 8px 0;
+      border-radius: 10px;
+      border: 1px solid #00d9ff;
+      background: #0b1117;
+      color: white;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 25px;
+      background: #00d9ff;
+      color: #001014;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .contact {
+      margin-top: 15px;
+      padding: 15px;
+      border: 1px solid #26343d;
+      border-radius: 12px;
+      background: #0b1117;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+
+    <h1>GEE CONTACTS</h1>
+
+    <input
+      id="name"
+      type="text"
+      placeholder="Contact name"
+    >
+
+    <input
+      id="phone"
+      type="tel"
+      placeholder="Phone number"
+    >
+
+    <button onclick="saveContact()">
+      SAVE CONTACT
+    </button>
+
+    <div id="contacts"></div>
+
+  </div>
+
+  <script>
+
+    function getContacts() {
+      return JSON.parse(
+        localStorage.getItem("geeContacts") || "{}"
+      );
+    }
+
+    function saveContact() {
+
+      const name =
+        document.getElementById("name").value
+        .trim()
+        .toLowerCase();
+
+      const phone =
+        document.getElementById("phone").value
+        .trim();
+
+      if (!name || !phone) {
+        alert("Please enter both name and phone number.");
+        return;
+      }
+
+      const contacts = getContacts();
+
+      contacts[name] = phone;
+
+      localStorage.setItem(
+        "geeContacts",
+        JSON.stringify(contacts)
+      );
+
+      document.getElementById("name").value = "";
+      document.getElementById("phone").value = "";
+
+      displayContacts();
+    }
+
+    function displayContacts() {
+
+      const contacts = getContacts();
+
+      const container =
+        document.getElementById("contacts");
+
+      container.innerHTML = "";
+
+      Object.keys(contacts).forEach(function(name) {
+
+        const div =
+          document.createElement("div");
+
+        div.className = "contact";
+
+        div.innerHTML =
+          "<strong>" +
+          name +
+          "</strong><br>" +
+          contacts[name];
+
+        container.appendChild(div);
+
+      });
+    }
+
+    displayContacts();
+
+  </script>
+
+</body>
+</html>
