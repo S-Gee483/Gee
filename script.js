@@ -127,7 +127,35 @@ function processCommand(command) {
 
     return;
   }
+// Open WhatsApp
+if (command.includes("open whatsapp")) {
 
+  speak("Opening WhatsApp.");
+
+  setTimeout(function () {
+    window.open(
+      "https://web.whatsapp.com",
+      "_blank"
+    );
+  }, 1000);
+
+  return;
+}
+
+// Open Gmail
+if (command.includes("open gmail")) {
+
+  speak("Opening Gmail.");
+
+  setTimeout(function () {
+    window.open(
+      "https://mail.google.com",
+      "_blank"
+    );
+  }, 1000);
+
+  return;
+}
   // Open YouTube
   if (command.includes("open youtube")) {
 
