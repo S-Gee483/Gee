@@ -51,8 +51,10 @@ function startListening() {
   };
 
   recognition.onend = function () {
-    listening = false;
-  };
+  listening = false;
+
+  document.querySelector(".arc").classList.remove("listening");
+};
 
   recognition.start();
 }
