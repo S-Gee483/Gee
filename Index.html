@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gee - Personal Assistant</title>
+</head>
+<body>
+  <h1>Gee</h1>
+  <p>Your personal AI assistant.</p>
+
+  <button onclick="speak()">Talk to Gee</button>
+
+  <script>
+    function speak() {
+      const message = new SpeechSynthesisUtterance(
+        "Hello boss. Gee is online. How can I help you?"
+      );
+      speechSynthesis.speak(message);
+    }
+  </script>
+</body>
+</html>
